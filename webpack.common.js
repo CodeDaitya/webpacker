@@ -1,13 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
 
 module.exports = {
-  mode: "development",
   entry: "./src/index.js",
-  output: {
-    filename: "main.[contentHash].js",
-    path: path.resolve(__dirname, 'dist')
-  },
   module: {
     rules: [
       {
@@ -17,6 +11,21 @@ module.exports = {
           "css-loader",     // #2 loads the css code and turns it into commonjs code
           "sass-loader"     // #1 loads the scss code and turns it into css
         ]
+      },
+      {
+        test: /\.html$/,
+        use: ["html-loader"]
+      },
+      {
+        test: /\.(svg|png|jpg|gif)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "[name].[hash].[ext]",
+            outputPath: "images",
+            esModule: false
+          }
+        }
       }
     ]
   },
